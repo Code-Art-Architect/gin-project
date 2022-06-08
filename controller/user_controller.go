@@ -1,49 +1,48 @@
 package controller
 
 import (
-	"gin-project/dao"
 	"gin-project/model"
 	"gin-project/service"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 var userService service.UserService
 
 func HandleLogin(context *gin.Context) {
-	var user model.User
-	if err := context.ShouldBindJSON(&user); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{
-			"code":    400,
-			"message": "参数有误!",
-		})
-	} else {
-		response := userService.Login(user)
-		context.JSON(200, response)
-	}
-}
-
-func HandleRegister(context *gin.Context) {
-	var user model.User
-	if err := context.ShouldBindJSON(&user); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{
-			"code":    400,
-			"message": "参数有误!",
-		})
-	} else {
-		response := userService.Register(user)
-		context.JSON(200, response)
-	}
-}
-
-func AddUser(context *gin.Context) {
 	username := context.PostForm("username")
 	password := context.PostForm("password")
 
-	user := model.User{
+	var user = model.User{
 		Username: username,
 		Password: password,
 	}
 
-	dao.Mgr.AddUser(&user)
+	flag := userService.Login(user)
+
+	if flag {
+		context.Redirect(301, "/")
+	} else {
+		context.HTML(400, "/login.html", "登录失败!")
+	}
+}
+
+func HandleRegister(context *gin.Context) {
+	username := context.PostForm("username")
+	password := context.PostForm("password")
+
+	var user = model.User{
+		Username: username,
+		Password: password,
+	}
+
+	flag := userService.Register(user)
+
+	if flag {
+		context.Redirect(301, "/login.html")
+	}
+}
+
+func ListUser(context *gin.Context) {
+	context.HTML(200, "user.html", nil)
+
 }

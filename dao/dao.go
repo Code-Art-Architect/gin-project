@@ -9,6 +9,7 @@ import (
 
 type Manager interface {
 	AddUser(user *model.User)
+	SelectOne(username, password string) model.User
 }
 
 type manager struct {
@@ -18,7 +19,7 @@ type manager struct {
 var Mgr Manager
 
 func init() {
-	dsn := "root:root@tcp(127.0.0.1:3306)/gin?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:root1234@tcp(127.0.0.1:3306)/gin?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
@@ -31,4 +32,10 @@ func init() {
 
 func (m manager) AddUser(user *model.User) {
 	m.db.Create(user)
+}
+
+func (m manager) SelectOne(username, password string) model.User {
+	var user model.User
+	m.db.Where("username = ? and password = ?", username, password).First(&user)
+	return user
 }
