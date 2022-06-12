@@ -3,6 +3,7 @@ package test
 import (
 	"database/sql"
 	"fmt"
+	"gin-project/util"
 	"testing"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -29,6 +30,15 @@ func TestConnect(t *testing.T) {
 	// 设置最大连接和闲置连接数目
 	db.SetMaxOpenConns(10)
 	db.SetMaxIdleConns(10)
+
+	fmt.Println("Connected Successfully!")
+}
+
+// 测试封装 SQL 连接
+func TestSqlUtil(t *testing.T) {
+	if err := util.InitDataBase(); err != nil {
+		panic(err)
+	}
 
 	fmt.Println("Connected Successfully!")
 }
