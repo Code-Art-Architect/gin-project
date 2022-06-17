@@ -1,11 +1,11 @@
-package test
+package sql_test
 
 import (
 	"database/sql"
 	"fmt"
-	"gin-project/util"
 	"testing"
 
+	"github.com/code-art/gin-project/util"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -36,7 +36,7 @@ func TestConnect(t *testing.T) {
 
 // 测试封装 SQL 连接
 func TestSqlUtil(t *testing.T) {
-	if err := util.InitDataBase(); err != nil {
+	if _, err := util.InitDataBase(); err != nil {
 		panic(err)
 	}
 

@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"gin-project/model"
-	"gin-project/service"
+	"github.com/code-art/gin-project/model"
+	"github.com/code-art/gin-project/service"
 	"github.com/gin-gonic/gin"
 )
 
@@ -44,5 +44,4 @@ func HandleRegister(context *gin.Context) {
 
 func ListUser(context *gin.Context) {
 	context.HTML(200, "user.html", nil)
-
 }

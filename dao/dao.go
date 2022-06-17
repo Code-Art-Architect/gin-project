@@ -1,10 +1,11 @@
 package dao
 
 import (
-	"gin-project/model"
+	"log"
+
+	"github.com/code-art/gin-project/model"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"log"
 )
 
 type Manager interface {

@@ -1,15 +1,15 @@
 package service
 
 import (
-	"gin-project/dao"
-	"gin-project/model"
+	"github.com/code-art/gin-project/dao"
+	"github.com/code-art/gin-project/model"
 )
 
 type UserService struct {
 }
 
 func (service UserService) Login(user model.User) bool {
-	one := dao.Mgr.SelectOne(user.Username, user.Password)
+	var one model.User = dao.Mgr.SelectOne(user.Username, user.Password)
 	if one.Username != "" {
 		return true
 	}

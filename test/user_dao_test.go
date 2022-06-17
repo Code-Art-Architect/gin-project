@@ -1,9 +1,10 @@
 package test
 
 import (
-	"gin-project/dao"
-	"gin-project/model"
 	"testing"
+
+	"github.com/code-art/gin-project/dao"
+	"github.com/code-art/gin-project/model"
 )
 
 func TestAddUser(t *testing.T) {
