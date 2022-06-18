@@ -1,46 +1,16 @@
-package gorm_test
+package test_gorm
 
 import (
 	"fmt"
-	"log"
-	"os"
 	"testing"
-	"time"
 
-	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 )
-
-var db *gorm.DB
 
 type Product struct {
 	gorm.Model
 	Code  string
 	Price uint
-}
-
-func init() {
-	// 配置全局logger
-	newLog := logger.New(
-		log.New(os.Stdout, "\r\n", log.LstdFlags),
-		logger.Config{
-			SlowThreshold:             time.Second,
-			Colorful:                  true,
-			IgnoreRecordNotFoundError: true,
-			LogLevel:                  logger.Info,
-		},
-	)
-	
-	dsn := "root:root1234@tcp(127.0.0.1:3306)/gin?charset=utf8mb4&parseTime=True&loc=Local"
-	var err error
-	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
-		Logger: newLog,
-	})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("Connected Successfully!")
 }
 
 func TestMigrate(t *testing.T) {
@@ -77,5 +47,17 @@ func TestDelete(t *testing.T) {
 	// Delete - 删除 product
 	db.Delete(&product, 1)
 }
+
+func TestBatchInsert(t *testing.T) {
+	var products = []Product{
+		{Code: "100", Price: 200},
+		{Code: "200", Price: 300},
+		{Code: "300", Price: 400},
+	}
+	
+	db.Create(products)
+}
+
+
 
 
