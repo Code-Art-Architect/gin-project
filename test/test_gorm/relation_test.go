@@ -27,12 +27,13 @@ type IDCard struct {
 
 type Teacher struct {
 	gorm.Model
-	TeacherName string
 	Students []Student `gorm:"many2many:Student_Teacher;"`
 }
 
 func TestMigrateRelationTable(t *testing.T) {
 	db.AutoMigrate(&Class{}, &Teacher{}, &Student{}, &IDCard{})
 }
+
+
 
 
